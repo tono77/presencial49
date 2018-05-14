@@ -1,0 +1,40 @@
+<%= form_with model: Post.new do |f| %>
+ <%= f.label :title %>
+ <%= f.text_field :title %>
+ <%= f.submit :enviar %>
+<% end %>
+
+<form action="<%= posts_path  %>">
+	<input name="q">
+</form>
+
+<div id="posts">
+	<table>
+		<tbody>
+			<% @posts.each do |post| %>
+				<%= render post %>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	$("[name=q]").keyup(function(event) {
+		$.ajax({
+			url: '<%= posts_path %>',
+			type: 'GET',
+			dataType: 'script',
+			data: {q: $(this).val()}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		
+	});
+</script>
